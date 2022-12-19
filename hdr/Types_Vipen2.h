@@ -7,111 +7,111 @@
 
 
 
-const float VIPEN2_ADC_FREQUENCY = 25600.0f;	// Примерная частота ацепирования сигнала, реально = 25602.41 Hz
-const uint32_t VIPEN2_WAVEFORM_COUNT = 8192UL;	// Макс отсчётов в сигнале
-const uint32_t VIPEN2_SPECTRUM_COUNT = VIPEN2_WAVEFORM_COUNT * 100UL / 256UL + 1UL;	// Макс 3201 линий в спектре
+const float VIPEN2_ADC_FREQUENCY = 25600.0f;	// РџСЂРёРјРµСЂРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° Р°С†РµРїРёСЂРѕРІР°РЅРёСЏ СЃРёРіРЅР°Р»Р°, СЂРµР°Р»СЊРЅРѕ = 25602.41 Hz
+const uint32_t VIPEN2_WAVEFORM_COUNT = 8192UL;	// РњР°РєСЃ РѕС‚СЃС‡С‘С‚РѕРІ РІ СЃРёРіРЅР°Р»Рµ
+const uint32_t VIPEN2_SPECTRUM_COUNT = VIPEN2_WAVEFORM_COUNT * 100UL / 256UL + 1UL;	// РњР°РєСЃ 3201 Р»РёРЅРёР№ РІ СЃРїРµРєС‚СЂРµ
 
 
 
 
 
 
-// Команды, приходящие с Bluetooth
-const uint32_t VIPEN2_BT_COMMAND_NONE = (0);	// Нет команды
-const uint32_t VIPEN2_BT_COMMAND_START = (1);	// Старт чтения, в структуре - параметры чтения
-const uint32_t VIPEN2_BT_COMMAND_STOP = (2);	// Стоп чтения
-const uint32_t VIPEN2_BT_COMMAND_IDLE = (3);	// Пока не отключаться
-const uint32_t VIPEN2_BT_COMMAND_OFF = (4);	// Выключиться
+// РљРѕРјР°РЅРґС‹, РїСЂРёС…РѕРґСЏС‰РёРµ СЃ Bluetooth
+const uint32_t VIPEN2_BT_COMMAND_NONE = (0);	// РќРµС‚ РєРѕРјР°РЅРґС‹
+const uint32_t VIPEN2_BT_COMMAND_START = (1);	// РЎС‚Р°СЂС‚ С‡С‚РµРЅРёСЏ, РІ СЃС‚СЂСѓРєС‚СѓСЂРµ - РїР°СЂР°РјРµС‚СЂС‹ С‡С‚РµРЅРёСЏ
+const uint32_t VIPEN2_BT_COMMAND_STOP = (2);	// РЎС‚РѕРї С‡С‚РµРЅРёСЏ
+const uint32_t VIPEN2_BT_COMMAND_IDLE = (3);	// РџРѕРєР° РЅРµ РѕС‚РєР»СЋС‡Р°С‚СЊСЃСЏ
+const uint32_t VIPEN2_BT_COMMAND_OFF = (4);	// Р’С‹РєР»СЋС‡РёС‚СЊСЃСЏ
 
-// Эти команды только для производителя. Пользователю их не показывать
-const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_0 = (0x10);	// Сброс калибровок (Scale = default)
-const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_45HZ = (0x11);	// Калибровка 45,0Гц 20мм/с, стандартный канал
-const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_10HZ = (0x12);	// Калибровка 10,0Гц 20мм/с, медленный канал
-const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_1KHZ = (0x20);	// Калибровка Envelope 1,0кГц 20м/с2
-const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_SAVE = (0x30);	// Сохранить калибровки
+// Р­С‚Рё РєРѕРјР°РЅРґС‹ С‚РѕР»СЊРєРѕ РґР»СЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ. РџРѕР»СЊР·РѕРІР°С‚РµР»СЋ РёС… РЅРµ РїРѕРєР°Р·С‹РІР°С‚СЊ
+const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_0 = (0x10);	// РЎР±СЂРѕСЃ РєР°Р»РёР±СЂРѕРІРѕРє (Scale = default)
+const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_45HZ = (0x11);	// РљР°Р»РёР±СЂРѕРІРєР° 45,0Р“С† 20РјРј/СЃ, СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєР°РЅР°Р»
+const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_10HZ = (0x12);	// РљР°Р»РёР±СЂРѕРІРєР° 10,0Р“С† 20РјРј/СЃ, РјРµРґР»РµРЅРЅС‹Р№ РєР°РЅР°Р»
+const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_1KHZ = (0x20);	// РљР°Р»РёР±СЂРѕРІРєР° Envelope 1,0РєР“С† 20Рј/СЃ2
+const uint32_t VIPEN2_BT_COMMAND_CALIBRATION_SAVE = (0x30);	// РЎРѕС…СЂР°РЅРёС‚СЊ РєР°Р»РёР±СЂРѕРІРєРё
 
-const uint32_t VIPEN2_BT_COMMAND_TEST = (0x80);	// Внутренний тест прибора
+const uint32_t VIPEN2_BT_COMMAND_TEST = (0x80);	// Р’РЅСѓС‚СЂРµРЅРЅРёР№ С‚РµСЃС‚ РїСЂРёР±РѕСЂР°
 
 typedef uint32_t TBluetoothCommand;
 
 
 
-// Что измеряем ?
-#define MEAS_TYPE_SPECTRUM			(0)	// Спектр: Стандартный канал: Ускорение 10-10000 Гц; Скорость 10-1000 Гц; Перемещение 10-200 Гц; 
-#define MEAS_TYPE_WAVEFORM			(1)	// Сигнал: Стандартный канал: Ускорение 10-10000 Гц; Скорость 10-1000 Гц; Перемещение 10-200 Гц; 
-#define MEAS_TYPE_SPECTRUM_SLOW		(2)	// Спектр: Тихоходный канал: 0,5-50 Гц; Ускорение, Скорость, Перемещение
-#define MEAS_TYPE_WAVEFORM_SLOW		(3)	// Сигнал: Тихоходный канал: 0,5-50 Гц; Ускорение, Скорость, Перемещение
-#define MEAS_TYPE_SPECTRUM_ENV		(4)	// Спектр огибающей Ускорения 0,5-10 кГц; Только канал Ускорения
-#define MEAS_TYPE_WAVEFORM_ENV		(5)	// Сигнал огибающей Ускорения 0,5-10 кГц; Только канал Ускорения
+// Р§С‚Рѕ РёР·РјРµСЂСЏРµРј ?
+#define MEAS_TYPE_SPECTRUM			(0)	// РЎРїРµРєС‚СЂ: РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєР°РЅР°Р»: РЈСЃРєРѕСЂРµРЅРёРµ 10-10000 Р“С†; РЎРєРѕСЂРѕСЃС‚СЊ 10-1000 Р“С†; РџРµСЂРµРјРµС‰РµРЅРёРµ 10-200 Р“С†; 
+#define MEAS_TYPE_WAVEFORM			(1)	// РЎРёРіРЅР°Р»: РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєР°РЅР°Р»: РЈСЃРєРѕСЂРµРЅРёРµ 10-10000 Р“С†; РЎРєРѕСЂРѕСЃС‚СЊ 10-1000 Р“С†; РџРµСЂРµРјРµС‰РµРЅРёРµ 10-200 Р“С†; 
+#define MEAS_TYPE_SPECTRUM_SLOW		(2)	// РЎРїРµРєС‚СЂ: РўРёС…РѕС…РѕРґРЅС‹Р№ РєР°РЅР°Р»: 0,5-50 Р“С†; РЈСЃРєРѕСЂРµРЅРёРµ, РЎРєРѕСЂРѕСЃС‚СЊ, РџРµСЂРµРјРµС‰РµРЅРёРµ
+#define MEAS_TYPE_WAVEFORM_SLOW		(3)	// РЎРёРіРЅР°Р»: РўРёС…РѕС…РѕРґРЅС‹Р№ РєР°РЅР°Р»: 0,5-50 Р“С†; РЈСЃРєРѕСЂРµРЅРёРµ, РЎРєРѕСЂРѕСЃС‚СЊ, РџРµСЂРµРјРµС‰РµРЅРёРµ
+#define MEAS_TYPE_SPECTRUM_ENV		(4)	// РЎРїРµРєС‚СЂ РѕРіРёР±Р°СЋС‰РµР№ РЈСЃРєРѕСЂРµРЅРёСЏ 0,5-10 РєР“С†; РўРѕР»СЊРєРѕ РєР°РЅР°Р» РЈСЃРєРѕСЂРµРЅРёСЏ
+#define MEAS_TYPE_WAVEFORM_ENV		(5)	// РЎРёРіРЅР°Р» РѕРіРёР±Р°СЋС‰РµР№ РЈСЃРєРѕСЂРµРЅРёСЏ 0,5-10 РєР“С†; РўРѕР»СЊРєРѕ РєР°РЅР°Р» РЈСЃРєРѕСЂРµРЅРёСЏ
 #define MEAS_TYPE_COUNT				(6)
 
 #define MEAS_TYPE_SPECTRUM_MASK		(0)
 #define MEAS_TYPE_WAVEFORM_MASK		(1)
 
 
-#define MEAS_UNITS_ACCELERATION		(0)	// Ускорение
-#define MEAS_UNITS_VELOCITY			(1) // Скорость
-#define MEAS_UNITS_DISPLACEMENT		(2)	// Перемещение
+#define MEAS_UNITS_ACCELERATION		(0)	// РЈСЃРєРѕСЂРµРЅРёРµ
+#define MEAS_UNITS_VELOCITY			(1) // РЎРєРѕСЂРѕСЃС‚СЊ
+#define MEAS_UNITS_DISPLACEMENT		(2)	// РџРµСЂРµРјРµС‰РµРЅРёРµ
 #define MEAS_UNITS_COUNT			(3)
 
 
 
 
-// Отсчётов в сигнале
+// РћС‚СЃС‡С‘С‚РѕРІ РІ СЃРёРіРЅР°Р»Рµ
 #define SETUP_ALLX_256		(0)	// 256
 #define SETUP_ALLX_1K		(1)	// 1024
 #define SETUP_ALLX_2K		(2)	// 2048
 #define SETUP_ALLX_8K		(3)	// 8192
 #define SETUP_ALLX_COUNT	(4)
 
-// Отсчётов в спектре
+// РћС‚СЃС‡С‘С‚РѕРІ РІ СЃРїРµРєС‚СЂРµ
 #define SETUP_ALLF_100		SETUP_ALLX_256	// 100 + 1
 #define SETUP_ALLF_400		SETUP_ALLX_1K	// 400 + 1
 #define SETUP_ALLF_800		SETUP_ALLX_2K	// 800 + 1
 #define SETUP_ALLF_3200		SETUP_ALLX_8K	// 3200 + 1
 #define SETUP_ALLF_COUNT	SETUP_ALLX_COUNT
 
-// Частота семплирования в сигнале 
-#define SETUP_DX_256_HZ		(0)	// 256 Гц
-#define SETUP_DX_640_HZ		(1)	// 640 Гц
-#define SETUP_DX_2560_HZ	(2)	// 2560 Гц
-#define SETUP_DX_6400_HZ	(3)	// 6400 Гц
-#define SETUP_DX_25600_HZ	(4)	// 25600 Гц
+// Р§Р°СЃС‚РѕС‚Р° СЃРµРјРїР»РёСЂРѕРІР°РЅРёСЏ РІ СЃРёРіРЅР°Р»Рµ 
+#define SETUP_DX_256_HZ		(0)	// 256 Р“С†
+#define SETUP_DX_640_HZ		(1)	// 640 Р“С†
+#define SETUP_DX_2560_HZ	(2)	// 2560 Р“С†
+#define SETUP_DX_6400_HZ	(3)	// 6400 Р“С†
+#define SETUP_DX_25600_HZ	(4)	// 25600 Р“С†
 #define SETUP_DX_COUNT		(5)
 
-// Верхняя частота в спектре
-#define SETUP_FN_100_HZ		SETUP_DX_256_HZ		// 100 Гц
-#define SETUP_FN_250_HZ		SETUP_DX_640_HZ		// 250 Гц
-#define SETUP_FN_1000_HZ	SETUP_DX_2560_HZ	// 1000 Гц
-#define SETUP_FN_2500_HZ	SETUP_DX_6400_HZ	// 2500 Гц
-#define SETUP_FN_10000_HZ	SETUP_DX_25600_HZ	// 10000 Гц
+// Р’РµСЂС…РЅСЏСЏ С‡Р°СЃС‚РѕС‚Р° РІ СЃРїРµРєС‚СЂРµ
+#define SETUP_FN_100_HZ		SETUP_DX_256_HZ		// 100 Р“С†
+#define SETUP_FN_250_HZ		SETUP_DX_640_HZ		// 250 Р“С†
+#define SETUP_FN_1000_HZ	SETUP_DX_2560_HZ	// 1000 Р“С†
+#define SETUP_FN_2500_HZ	SETUP_DX_6400_HZ	// 2500 Р“С†
+#define SETUP_FN_10000_HZ	SETUP_DX_25600_HZ	// 10000 Р“С†
 #define SETUP_FN_COUNT		SETUP_DX_COUNT
 
 const uint32_t SetupMeasAllX[SETUP_ALLX_COUNT] = { 256, 1024, 2048, 8192 };
 const float SetupMeasdX[SETUP_DX_COUNT] = { 1.0f / 256.0f, 1.0f / 640.0f, 1.0f / 2560.0f, 1.0f / 6400.0f, 1.0f / 25600.0f };
 
 
-// Усреднения для спектров
-#define SETUP_AVG_NO		(0)	// Нет усреднений
-#define SETUP_AVG_4_STOP	(1)	// Усреднить 4 спектра и остановить измерение
-#define SETUP_AVG_10_STOP	(2)	// Усреднить 10 спектров и остановить измерение
-#define SETUP_AVG_999		(3)	// Усреднять спектры всё время, пока не нажмут Стоп
+// РЈСЃСЂРµРґРЅРµРЅРёСЏ РґР»СЏ СЃРїРµРєС‚СЂРѕРІ
+#define SETUP_AVG_NO		(0)	// РќРµС‚ СѓСЃСЂРµРґРЅРµРЅРёР№
+#define SETUP_AVG_4_STOP	(1)	// РЈСЃСЂРµРґРЅРёС‚СЊ 4 СЃРїРµРєС‚СЂР° Рё РѕСЃС‚Р°РЅРѕРІРёС‚СЊ РёР·РјРµСЂРµРЅРёРµ
+#define SETUP_AVG_10_STOP	(2)	// РЈСЃСЂРµРґРЅРёС‚СЊ 10 СЃРїРµРєС‚СЂРѕРІ Рё РѕСЃС‚Р°РЅРѕРІРёС‚СЊ РёР·РјРµСЂРµРЅРёРµ
+#define SETUP_AVG_999		(3)	// РЈСЃСЂРµРґРЅСЏС‚СЊ СЃРїРµРєС‚СЂС‹ РІСЃС‘ РІСЂРµРјСЏ, РїРѕРєР° РЅРµ РЅР°Р¶РјСѓС‚ РЎС‚РѕРї
 #define SETUP_AVG_COUNT		(4)
 
 
 
 
-#define SETUP_EXTERNAL_SENSOR	(0)	// Сигнал подаётся с датчика
-#define SETUP_INTERNAL_DAC		(1)	// Сигнал подаётся с внутреннего ЦАП - используется для внутренних тестов
+#define SETUP_EXTERNAL_SENSOR	(0)	// РЎРёРіРЅР°Р» РїРѕРґР°С‘С‚СЃСЏ СЃ РґР°С‚С‡РёРєР°
+#define SETUP_INTERNAL_DAC		(1)	// РЎРёРіРЅР°Р» РїРѕРґР°С‘С‚СЃСЏ СЃ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ Р¦РђРџ - РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РІРЅСѓС‚СЂРµРЅРЅРёС… С‚РµСЃС‚РѕРІ
 
-#define SETUP_READ_MODE			(0)	// Режим измерения
-#define SETUP_CALIBRATION_MODE	(1)	// Режим калибровки - только для производителя
+#define SETUP_READ_MODE			(0)	// Р РµР¶РёРј РёР·РјРµСЂРµРЅРёСЏ
+#define SETUP_CALIBRATION_MODE	(1)	// Р РµР¶РёРј РєР°Р»РёР±СЂРѕРІРєРё - С‚РѕР»СЊРєРѕ РґР»СЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ
 
 
 
-#pragma pack(4) // Структуры выровнены на 4 байта
+#pragma pack(4) // РЎС‚СЂСѓРєС‚СѓСЂС‹ РІС‹СЂРѕРІРЅРµРЅС‹ РЅР° 4 Р±Р°Р№С‚Р°
 
-// Текущие настройки чтения
+// РўРµРєСѓС‰РёРµ РЅР°СЃС‚СЂРѕР№РєРё С‡С‚РµРЅРёСЏ
 typedef struct
 {
 	TBluetoothCommand Command;
@@ -119,14 +119,14 @@ typedef struct
 	uint32_t MeasType;	// MEAS_TYPE_xxx
 	uint32_t MeasUnits;	// MEAS_UNITS_xxx
 
-	uint32_t AllX;		// SETUP_ALLX_xxx или SETUP_ALLF_xxx
-	uint32_t dX;		// SETUP_DX_xxx или SETUP_FN_xxx
+	uint32_t AllX;		// SETUP_ALLX_xxx РёР»Рё SETUP_ALLF_xxx
+	uint32_t dX;		// SETUP_DX_xxx РёР»Рё SETUP_FN_xxx
 
 	uint32_t Avg;		// SETUP_AVG_xxx
 
 
-	uint32_t InternalDAC; // Переключение канала: 0 - Вход с датчиков, 1 - с DAC
-	uint32_t CalibrationMode; // 0 - Работа, 1 - Калибровка
+	uint32_t InternalDAC; // РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РєР°РЅР°Р»Р°: 0 - Р’С…РѕРґ СЃ РґР°С‚С‡РёРєРѕРІ, 1 - СЃ DAC
+	uint32_t CalibrationMode; // 0 - Р Р°Р±РѕС‚Р°, 1 - РљР°Р»РёР±СЂРѕРІРєР°
 
 	uint32_t Reserv[8];
 
@@ -142,7 +142,7 @@ static_assert(szTVipen2MeasureSetup == 64, "");
 
 
 
-#pragma pack(1) // Структуры выровнены на 1 байт
+#pragma pack(1) // РЎС‚СЂСѓРєС‚СѓСЂС‹ РІС‹СЂРѕРІРЅРµРЅС‹ РЅР° 1 Р±Р°Р№С‚
 
 
 
@@ -160,13 +160,13 @@ typedef struct stVipen2AdvertisingData
 	uint8_t TypeFF;
 	uint16_t ManID;
 	uint8_t Addr;	// ==0
-	uint16_t DeviceNumber;	// Номер прибора
-	uint32_t TimeStamp;	// Счётчик 1024 Гц для проверки, что появились новые данные
+	uint16_t DeviceNumber;	// РќРѕРјРµСЂ РїСЂРёР±РѕСЂР°
+	uint32_t TimeStamp;	// РЎС‡С‘С‚С‡РёРє 1024 Р“С† РґР»СЏ РїСЂРѕРІРµСЂРєРё, С‡С‚Рѕ РїРѕСЏРІРёР»РёСЃСЊ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ
 	int16_t Values[4];	// Velocity, Value, Excess, Temperature
-	uint8_t Battery;	// В беконе хранится состояние батареи в процентах 0..100 %
-						// Старший бит == 1 - прибор заряжается (зелёный светодиод)
-	uint8_t Firmware;	// Версии FW процессоров:
-						// Старшие 4 бита = для SAME70, младшие 4 бита = для CC2640 
+	uint8_t Battery;	// Р’ Р±РµРєРѕРЅРµ С…СЂР°РЅРёС‚СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ Р±Р°С‚Р°СЂРµРё РІ РїСЂРѕС†РµРЅС‚Р°С… 0..100 %
+						// РЎС‚Р°СЂС€РёР№ Р±РёС‚ == 1 - РїСЂРёР±РѕСЂ Р·Р°СЂСЏР¶Р°РµС‚СЃСЏ (Р·РµР»С‘РЅС‹Р№ СЃРІРµС‚РѕРґРёРѕРґ)
+	uint8_t Firmware;	// Р’РµСЂСЃРёРё FW РїСЂРѕС†РµСЃСЃРѕСЂРѕРІ:
+						// РЎС‚Р°СЂС€РёРµ 4 Р±РёС‚Р° = РґР»СЏ SAME70, РјР»Р°РґС€РёРµ 4 Р±РёС‚Р° = РґР»СЏ CC2640 
 
 } TVipen2AdvertisingData;
 #define szTVipen2AdvertisingData sizeof(TVipen2AdvertisingData)
@@ -186,7 +186,7 @@ static_assert(szTVipen2AdvertisingData == 31, "");
 
 
 
-// бекон
+// Р±РµРєРѕРЅ
 static TVipen2AdvertisingData Vipen2AdvertisingData =
 {
 	0x02, GAP_ADTYPE_FLAGS, GAP_ADTYPE_FLAGS_GENERAL | GAP_ADTYPE_FLAGS_BREDR_NOT_SUPPORTED,
@@ -195,8 +195,8 @@ static TVipen2AdvertisingData Vipen2AdvertisingData =
 		0x00, 0x0001, 0x00000000, 0, 0, -200, 0, 0, 0
 };
 
-// В беконе в поле Addr хранится состояние батареи в процентах 0..100 %
-// Старший бит == 1 - прибор заряжается (зелёный светодиод)
+// Р’ Р±РµРєРѕРЅРµ РІ РїРѕР»Рµ Addr С…СЂР°РЅРёС‚СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ Р±Р°С‚Р°СЂРµРё РІ РїСЂРѕС†РµРЅС‚Р°С… 0..100 %
+// РЎС‚Р°СЂС€РёР№ Р±РёС‚ == 1 - РїСЂРёР±РѕСЂ Р·Р°СЂСЏР¶Р°РµС‚СЃСЏ (Р·РµР»С‘РЅС‹Р№ СЃРІРµС‚РѕРґРёРѕРґ)
 #define VIPEN2_CHARGE	(0x80) 
 
 
@@ -205,13 +205,13 @@ static TVipen2AdvertisingData Vipen2AdvertisingData =
 typedef struct
 {
 	uint8_t Addr;	// ==0
-	uint16_t DeviceNumber;	// Номер прибора
-	uint32_t TimeStamp;	// Счётчик 1024 Гц для проверки, что появились новые данные
+	uint16_t DeviceNumber;	// РќРѕРјРµСЂ РїСЂРёР±РѕСЂР°
+	uint32_t TimeStamp;	// РЎС‡С‘С‚С‡РёРє 1024 Р“С† РґР»СЏ РїСЂРѕРІРµСЂРєРё, С‡С‚Рѕ РїРѕСЏРІРёР»РёСЃСЊ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ
 	int16_t Values[4];	// Velocity, Value, Excess, Temperature
-	uint8_t Battery;	// В беконе хранится состояние батареи в процентах 0..100 %
-						// Старший бит == 1 - прибор заряжается (зелёный светодиод)
-	uint8_t Firmware;	// Версии FW процессоров:
-						// Старшие 4 бита = для SAME70, младшие 4 бита = для CC2640 
+	uint8_t Battery;	// Р’ Р±РµРєРѕРЅРµ С…СЂР°РЅРёС‚СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ Р±Р°С‚Р°СЂРµРё РІ РїСЂРѕС†РµРЅС‚Р°С… 0..100 %
+						// РЎС‚Р°СЂС€РёР№ Р±РёС‚ == 1 - РїСЂРёР±РѕСЂ Р·Р°СЂСЏР¶Р°РµС‚СЃСЏ (Р·РµР»С‘РЅС‹Р№ СЃРІРµС‚РѕРґРёРѕРґ)
+	uint8_t Firmware;	// Р’РµСЂСЃРёРё FW РїСЂРѕС†РµСЃСЃРѕСЂРѕРІ:
+						// РЎС‚Р°СЂС€РёРµ 4 Р±РёС‚Р° = РґР»СЏ SAME70, РјР»Р°РґС€РёРµ 4 Р±РёС‚Р° = РґР»СЏ CC2640 
 
 } TVipen2UserData;
 #define szTVipen2UserData sizeof(TVipen2UserData)
@@ -220,11 +220,11 @@ static_assert(szTVipen2UserData == 17, "");
 
 
 
-// Биты состояния, Read, Notify:
-#define VIPEN_STATE_STOPED	(0<<0) // Прибор стоит
-#define VIPEN_STATE_STARTED	(1<<0) // Прибор в режиме измерения
-#define VIPEN_STATE_NODATA	(0<<1) // Данных нет (после инициализации)
-#define VIPEN_STATE_DATA	(1<<1) // Есть данные
+// Р‘РёС‚С‹ СЃРѕСЃС‚РѕСЏРЅРёСЏ, Read, Notify:
+#define VIPEN_STATE_STOPED	(0<<0) // РџСЂРёР±РѕСЂ СЃС‚РѕРёС‚
+#define VIPEN_STATE_STARTED	(1<<0) // РџСЂРёР±РѕСЂ РІ СЂРµР¶РёРјРµ РёР·РјРµСЂРµРЅРёСЏ
+#define VIPEN_STATE_NODATA	(0<<1) // Р”Р°РЅРЅС‹С… РЅРµС‚ (РїРѕСЃР»Рµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё)
+#define VIPEN_STATE_DATA	(1<<1) // Р•СЃС‚СЊ РґР°РЅРЅС‹Рµ
 
 
 
@@ -233,44 +233,44 @@ static_assert(szTVipen2UserData == 17, "");
 
 
 
-// Команда для запроса сигнала/спектра
-#define VIPEN2_GET_DATA		(0x0010) // запросить сигнал/спектр
-// Команда для запроса текстового лога
-#define VIPEN2_GET_LOG		(0x0020) // запросить текстовый лог
+// РљРѕРјР°РЅРґР° РґР»СЏ Р·Р°РїСЂРѕСЃР° СЃРёРіРЅР°Р»Р°/СЃРїРµРєС‚СЂР°
+#define VIPEN2_GET_DATA		(0x0010) // Р·Р°РїСЂРѕСЃРёС‚СЊ СЃРёРіРЅР°Р»/СЃРїРµРєС‚СЂ
+// РљРѕРјР°РЅРґР° РґР»СЏ Р·Р°РїСЂРѕСЃР° С‚РµРєСЃС‚РѕРІРѕРіРѕ Р»РѕРіР°
+#define VIPEN2_GET_LOG		(0x0020) // Р·Р°РїСЂРѕСЃРёС‚СЊ С‚РµРєСЃС‚РѕРІС‹Р№ Р»РѕРі
 
 
 
 
-#define VIPEN2_BLUETOOTH_PACKET_DATA_SIZE	(236)	// длина блока данных
+#define VIPEN2_BLUETOOTH_PACKET_DATA_SIZE	(236)	// РґР»РёРЅР° Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 
-#define VIPEN2_STAMPS_IN_BLOCK ((VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2)/2) // 117 отсчётов в блоке
-#define VIPEN2_MAX_DATA_BLOCKS  (VIPEN2_WAVEFORM_COUNT / VIPEN2_STAMPS_IN_BLOCK + 1) // Длина сигнала = до 71 блока
+#define VIPEN2_STAMPS_IN_BLOCK ((VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2)/2) // 117 РѕС‚СЃС‡С‘С‚РѕРІ РІ Р±Р»РѕРєРµ
+#define VIPEN2_MAX_DATA_BLOCKS  (VIPEN2_WAVEFORM_COUNT / VIPEN2_STAMPS_IN_BLOCK + 1) // Р”Р»РёРЅР° СЃРёРіРЅР°Р»Р° = РґРѕ 71 Р±Р»РѕРєР°
 
 
 typedef struct
 {
-	uint8_t ViPen2_Get_Data_Command;	// Команда
-	uint8_t ViPen2_Get_Data_Block; 		// Номер блока
-	uint8_t ViPen2_Get_Wave_ID; 		// Счётчик, позволяет проверить, что качаем тот-же замер
-										// Увеличивается на 1, при запросе заголовка
-	uint8_t ViPen2_Data_Blocks;			// Количество блоков с данными, до 72: 0 = Hdr; 1..71 = отсчёты
+	uint8_t ViPen2_Get_Data_Command;	// РљРѕРјР°РЅРґР°
+	uint8_t ViPen2_Get_Data_Block; 		// РќРѕРјРµСЂ Р±Р»РѕРєР°
+	uint8_t ViPen2_Get_Wave_ID; 		// РЎС‡С‘С‚С‡РёРє, РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РєР°С‡Р°РµРј С‚РѕС‚-Р¶Рµ Р·Р°РјРµСЂ
+										// РЈРІРµР»РёС‡РёРІР°РµС‚СЃСЏ РЅР° 1, РїСЂРё Р·Р°РїСЂРѕСЃРµ Р·Р°РіРѕР»РѕРІРєР°
+	uint8_t ViPen2_Data_Blocks;			// РљРѕР»РёС‡РµСЃС‚РІРѕ Р±Р»РѕРєРѕРІ СЃ РґР°РЅРЅС‹РјРё, РґРѕ 72: 0 = Hdr; 1..71 = РѕС‚СЃС‡С‘С‚С‹
 
-	uint32_t Timestamp;	//  Счётчик 1024 Гц, совпадает с User_Data. Timestamp
-	float Coeff;	// Коэф перевода данных int16_t в float, 4 байта
+	uint32_t Timestamp;	//  РЎС‡С‘С‚С‡РёРє 1024 Р“С†, СЃРѕРІРїР°РґР°РµС‚ СЃ User_Data. Timestamp
+	float Coeff;	// РљРѕСЌС„ РїРµСЂРµРІРѕРґР° РґР°РЅРЅС‹С… int16_t РІ float, 4 Р±Р°Р№С‚Р°
 
 	uint32_t DataType;	// MEAS_TYPE_xxx
 	uint32_t DataUnits;	// MEAS_UNITS_xxx
-	uint32_t DataLen; // Отсчётов
-	float DataDX;	// Шаг между отсчётами, сек или Гц
+	uint32_t DataLen; // РћС‚СЃС‡С‘С‚РѕРІ
+	float DataDX;	// РЁР°Рі РјРµР¶РґСѓ РѕС‚СЃС‡С‘С‚Р°РјРё, СЃРµРє РёР»Рё Р“С†
 
 	int32_t SpectrumAvg;
 	int32_t SpectrumAvgMax;
 
     int16_t Values[4];	// Velocity, Value, Excess, Temperature
 
-	uint8_t Reading;	// 1 - идёт измерение; 0 - стоит
-//	uint8_t IsCharging;	// 1 - идёт зарядка; 0 - нет
-//	uint8_t Battery;	// % зарядки аккумулятора = 0..100 %
+	uint8_t Reading;	// 1 - РёРґС‘С‚ РёР·РјРµСЂРµРЅРёРµ; 0 - СЃС‚РѕРёС‚
+//	uint8_t IsCharging;	// 1 - РёРґС‘С‚ Р·Р°СЂСЏРґРєР°; 0 - РЅРµС‚
+//	uint8_t Battery;	// % Р·Р°СЂСЏРґРєРё Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР° = 0..100 %
 	uint8_t Align1[3];
     
 	uint8_t Reserv2[VIPEN2_BLUETOOTH_PACKET_DATA_SIZE - 12 * 4];
@@ -282,9 +282,9 @@ static_assert(szTVipen2_Waveform_Header == VIPEN2_BLUETOOTH_PACKET_DATA_SIZE, ""
 
 typedef struct 
 {
-	uint8_t ViPen2_Get_Data_Block; 	// Номер блока, 0..71
-	uint8_t ViPen2_Get_Wave_ID; 	// Счётчик, позволяет проверить, что качаем тот-же замер
-	int16_t Wave[VIPEN2_STAMPS_IN_BLOCK];	// отсчёты = 2 байта знаковое * 117 отсчётов в блоке
+	uint8_t ViPen2_Get_Data_Block; 	// РќРѕРјРµСЂ Р±Р»РѕРєР°, 0..71
+	uint8_t ViPen2_Get_Wave_ID; 	// РЎС‡С‘С‚С‡РёРє, РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РєР°С‡Р°РµРј С‚РѕС‚-Р¶Рµ Р·Р°РјРµСЂ
+	int16_t Wave[VIPEN2_STAMPS_IN_BLOCK];	// РѕС‚СЃС‡С‘С‚С‹ = 2 Р±Р°Р№С‚Р° Р·РЅР°РєРѕРІРѕРµ * 117 РѕС‚СЃС‡С‘С‚РѕРІ РІ Р±Р»РѕРєРµ
 } TVipen2_Waveform_Data;
 #define szTVipen2_Waveform_Data sizeof(TVipen2_Waveform_Data)
 static_assert(szTVipen2_Waveform_Data == VIPEN2_BLUETOOTH_PACKET_DATA_SIZE, "");
@@ -294,16 +294,16 @@ static_assert(szTVipen2_Waveform_Data == VIPEN2_BLUETOOTH_PACKET_DATA_SIZE, "");
 
 
 
-#define VIPEN2_LOG_NUMBER	(32)	// 32 блока в текстовом логе
-#define VIPEN2_LOG_SIZE	((VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2)*VIPEN2_LOG_NUMBER)	// 32 * 234 = 7488 байт в текстовом логе
+#define VIPEN2_LOG_NUMBER	(32)	// 32 Р±Р»РѕРєР° РІ С‚РµРєСЃС‚РѕРІРѕРј Р»РѕРіРµ
+#define VIPEN2_LOG_SIZE	((VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2)*VIPEN2_LOG_NUMBER)	// 32 * 234 = 7488 Р±Р°Р№С‚ РІ С‚РµРєСЃС‚РѕРІРѕРј Р»РѕРіРµ
 
 
-// Совпадает со структурой TVipen2_Waveform_Data
+// РЎРѕРІРїР°РґР°РµС‚ СЃРѕ СЃС‚СЂСѓРєС‚СѓСЂРѕР№ TVipen2_Waveform_Data
 typedef struct 
 {
-	uint8_t ViPen2_GetLog_Block; 	// Номер блока
-	uint8_t ViPen2_GetLog_ID; 	// Счётчик, позволяет проверить, что качаем тот-же лог
-	int16_t LogData[VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2];	// 234 байта * 32 блока = 7488 байт
+	uint8_t ViPen2_GetLog_Block; 	// РќРѕРјРµСЂ Р±Р»РѕРєР°
+	uint8_t ViPen2_GetLog_ID; 	// РЎС‡С‘С‚С‡РёРє, РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РєР°С‡Р°РµРј С‚РѕС‚-Р¶Рµ Р»РѕРі
+	int16_t LogData[VIPEN2_BLUETOOTH_PACKET_DATA_SIZE-2];	// 234 Р±Р°Р№С‚Р° * 32 Р±Р»РѕРєР° = 7488 Р±Р°Р№С‚
 } TVipen2_Log_Data;
 
 
@@ -318,21 +318,21 @@ typedef struct
 
 
 
-#pragma pack(4) // Структуры выровнены на 4 байта
+#pragma pack(4) // РЎС‚СЂСѓРєС‚СѓСЂС‹ РІС‹СЂРѕРІРЅРµРЅС‹ РЅР° 4 Р±Р°Р№С‚Р°
 
 
-#define DEVICE_OFF_TIME	(10 * 60 * RTC_FREQ) // Выключаться через 10 мин неактивности
+#define DEVICE_OFF_TIME	(10 * 60 * RTC_FREQ) // Р’С‹РєР»СЋС‡Р°С‚СЊСЃСЏ С‡РµСЂРµР· 10 РјРёРЅ РЅРµР°РєС‚РёРІРЅРѕСЃС‚Рё
 
 
-// Текущие настройки для записи-загрузки из FRAM
+// РўРµРєСѓС‰РёРµ РЅР°СЃС‚СЂРѕР№РєРё РґР»СЏ Р·Р°РїРёСЃРё-Р·Р°РіСЂСѓР·РєРё РёР· FRAM
 typedef struct
 {
 
-	uint32_t NormIndex; // Индекс текущей нормы в массиве Norms[]
-	uint32_t NormIndexW, NormIndexA; //  Индексы Норм для Yellow  и Red
+	uint32_t NormIndex; // РРЅРґРµРєСЃ С‚РµРєСѓС‰РµР№ РЅРѕСЂРјС‹ РІ РјР°СЃСЃРёРІРµ Norms[]
+	uint32_t NormIndexW, NormIndexA; //  РРЅРґРµРєСЃС‹ РќРѕСЂРј РґР»СЏ Yellow  Рё Red
 
 
-	TVipen2MeasureSetup Meas; // Текущие настройки чтения
+	TVipen2MeasureSetup Meas; // РўРµРєСѓС‰РёРµ РЅР°СЃС‚СЂРѕР№РєРё С‡С‚РµРЅРёСЏ
 
 	uint32_t Reserv[12];
 
